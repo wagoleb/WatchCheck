@@ -35,6 +35,7 @@
                 </MenuItem.Icon>
             </MenuItem>
         </MenuItem>
+        
         <MenuItem Header="_Edit">
             <MenuItem Command="Copy">
                 <MenuItem.Icon>
