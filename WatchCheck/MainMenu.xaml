@@ -8,19 +8,24 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Menu>
         <MenuItem Header="File">
-            <MenuItem Header="New">
+            <MenuItem Command="New">
                 <MenuItem.Icon>
                     <Image Source="./icons/New.png" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="Open">
+            <MenuItem Command="Open">
                 <MenuItem.Icon>
                     <Image Source="./icons/Open.png" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="Save">
+            <MenuItem Command="Save">
                 <MenuItem.Icon>
                     <Image Source="./icons/Save.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Command="SaveAs">
+                <MenuItem.Icon>
+                    <Image Source="./icons/SaveAs.png" />
                 </MenuItem.Icon>
             </MenuItem>
             <Separator />
@@ -31,17 +36,17 @@
             </MenuItem>
         </MenuItem>
         <MenuItem Header="Edit">
-            <MenuItem Header="Copy">
+            <MenuItem Command="Copy">
                 <MenuItem.Icon>
                     <Image Source="./icons/Copy.png" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="Cut">
+            <MenuItem Command="Cut">
                 <MenuItem.Icon>
                     <Image Source="./icons/Cut.png" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="Paste">
+            <MenuItem Command="Paste">
                 <MenuItem.Icon>
                     <Image Source="./icons/Paste.png" />
                 </MenuItem.Icon>
