@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Menu>
-        <MenuItem Header="File">
+        <MenuItem Header="_File">
             <MenuItem Command="New">
                 <MenuItem.Icon>
                     <Image Source="./icons/New.png" />
@@ -35,7 +35,7 @@
                 </MenuItem.Icon>
             </MenuItem>
         </MenuItem>
-        <MenuItem Header="Edit">
+        <MenuItem Header="_Edit">
             <MenuItem Command="Copy">
                 <MenuItem.Icon>
                     <Image Source="./icons/Copy.png" />
@@ -52,7 +52,7 @@
                 </MenuItem.Icon>
             </MenuItem>
         </MenuItem>
-        <MenuItem Header="Help">
+        <MenuItem Header="_Help">
             <MenuItem Header="Help">
                 <MenuItem.Icon>
                     <Image Source="./icons/Help.png" />
