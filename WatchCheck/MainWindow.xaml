@@ -8,6 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <DockPanel>
         <local:MainMenu DockPanel.Dock="Top"/>
+        <local:Buttons DockPanel.Dock="Top"/>
         <local:MainWindowSpace />
     </DockPanel>
 </Window>
