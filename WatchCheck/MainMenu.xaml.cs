@@ -41,7 +41,7 @@ namespace WatchCheck
             open.InitialDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
             if (open.ShowDialog() == true)
             {
-                MessageBox.Show(String.Format("Completed: {0}\nFile: {1}", true, open.FileName));
+                MessageBox.Show($"Completed: {true}\nFile: {open.FileName}");
             }
         }
 
