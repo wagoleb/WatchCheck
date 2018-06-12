@@ -49,7 +49,6 @@ namespace WatchCheck
                 mainWindowText.Text = $"File loaded: {open.FileName}\nTotal time: {wave.TotalTime},\nWave format: {wave.WaveFormat}";
                 output = new NAudio.Wave.DirectSoundOut();
                 output.Init(new NAudio.Wave.WaveChannel32(wave));
-                output.Play();
             }
         }
 
