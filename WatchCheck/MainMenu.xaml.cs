@@ -39,8 +39,8 @@ namespace WatchCheck
             OpenFileDialog open = new OpenFileDialog();
             open.Filter = "Wave File (*.wav)|*.wav";
             open.InitialDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
-            Nullable<bool> result = open.ShowDialog();
-            MessageBox.Show(result.ToString());
+            if (open.ShowDialog() == true)
+                MessageBox.Show(String.Format("Completed: {0}\nFile: {1}", true, open.FileName));
         }
 
         private void New_CanExecute(object sender, CanExecuteRoutedEventArgs e)
