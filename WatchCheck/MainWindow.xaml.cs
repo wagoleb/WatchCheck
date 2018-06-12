@@ -44,6 +44,7 @@ namespace WatchCheck
             open.InitialDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
             if (open.ShowDialog() == true)
             {
+                DisposeWave();
                 wave = new NAudio.Wave.WaveFileReader(open.FileName);
                 mainWindowText.Text = $"File loaded: {open.FileName}\nTotal time: {wave.TotalTime},\nWave format: {wave.WaveFormat}";
                 output = new NAudio.Wave.DirectSoundOut();
