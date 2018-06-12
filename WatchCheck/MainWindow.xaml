@@ -6,9 +6,83 @@
         xmlns:local="clr-namespace:WatchCheck"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}" x:Name="buttonStyle">
+            <Setter Property="Margin" Value="1,1,1,1" />
+        </Style>
+    </Window.Resources>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="Open"
+                        Executed="Open_Executed"/>
+        <CommandBinding Command="New"
+                        CanExecute="New_CanExecute"
+                        Executed="New_Executed" />
+        <CommandBinding Command="Close"
+                        CanExecute="Exit_CanExecute"
+                        Executed="Exit_Executed" />
+    </Window.CommandBindings>
+
     <DockPanel>
-        <local:MainMenu DockPanel.Dock="Top"/>
-        <local:Buttons DockPanel.Dock="Top"/>
-        <local:MainWindowSpace />
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New" Command="New">
+                    <MenuItem.Icon>
+                        <Image Source="./icons/New.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Open" Command="Open">
+                    <MenuItem.Icon>
+                        <Image Source="./icons/Open.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Save" Command="Save">
+                    <MenuItem.Icon>
+                        <Image Source="./icons/Save.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="SaveAs">
+                    <MenuItem.Icon>
+                        <Image Source="./icons/SaveAs.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="E_xit" Command="Close" InputGestureText="Ctrl+X">
+                    <MenuItem.Icon>
+                        <Image Source="./icons/Exit.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="_Edit">
+                <MenuItem Command="Copy">
+                    <MenuItem.Icon>
+                        <Image Source="./icons/Copy.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="Cut">
+                    <MenuItem.Icon>
+                        <Image Source="./icons/Cut.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="Paste">
+                    <MenuItem.Icon>
+                        <Image Source="./icons/Paste.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="Help">
+                    <MenuItem.Icon>
+                        <Image Source="./icons/Help.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <StackPanel DockPanel.Dock="top" Orientation="Horizontal">
+            <!--<Button Command="Open">Open Audio file</Button>-->
+            <Button Click="PlayOrPause">Play / Pause</Button>
+        </StackPanel>
+        <TextBlock Text="No file loaded" x:Name="mainWindowText"/>
     </DockPanel>
 </Window>

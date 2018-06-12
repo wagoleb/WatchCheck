@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace WatchCheck
 {
@@ -20,11 +21,67 @@ namespace WatchCheck
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private NAudio.Wave.WaveFileReader wave = null;
+
+        private NAudio.Wave.DirectSoundOut output = null;
+
         public MainWindow()
         {
             InitializeComponent();
+            ApplicationCommands.Close.InputGestures.Add(new KeyGesture(Key.X, ModifierKeys.Control));
         }
 
+        private void Open_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
 
+        private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            open.Filter = "Wave File (*.wav)|*.wav";
+            open.InitialDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
+            if (open.ShowDialog() == true)
+            {
+                MessageBox.Show($"Completed: {true}\nFile: {open.FileName}");
+                mainWindowText.Text = open.FileName;
+                wave = new NAudio.Wave.WaveFileReader(open.FileName);
+                output = new NAudio.Wave.DirectSoundOut();
+                output.Init(new NAudio.Wave.WaveChannel32(wave));
+                output.Play();
+            }
+        }
+
+        private void New_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void New_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show("New file to record.....");
+        }
+
+        private void Exit_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void Exit_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void PlayOrPause(object sender, RoutedEventArgs e)
+        {
+            if (output != null)
+            {
+                if (output.PlaybackState == NAudio.Wave.PlaybackState.Playing)
+                    output.Pause();
+                else if (output.PlaybackState == NAudio.Wave.PlaybackState.Paused)
+                    output.Play();
+            }
+        }
     }
 }
