@@ -7,7 +7,6 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.CommandBindings>
         <CommandBinding Command="Open"
-                        CanExecute="Open_CanExecute"
                         Executed="Open_Executed"/>
         <CommandBinding Command="New"
                         CanExecute="New_CanExecute"
@@ -18,17 +17,17 @@
     </UserControl.CommandBindings>
     <Menu>
         <MenuItem Header="_File">
-            <MenuItem Command="New">
+            <MenuItem Header="_New" Command="New">
                 <MenuItem.Icon>
                     <Image Source="./icons/New.png" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Command="Open">
+            <MenuItem Header="_Open" Command="Open">
                 <MenuItem.Icon>
                     <Image Source="./icons/Open.png" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Command="Save">
+            <MenuItem Header="_Save" Command="Save">
                 <MenuItem.Icon>
                     <Image Source="./icons/Save.png" />
                 </MenuItem.Icon>
@@ -39,7 +38,7 @@
                 </MenuItem.Icon>
             </MenuItem>
             <Separator />
-            <MenuItem Header="Exit" Command="Close">
+            <MenuItem Header="E_xit" Command="Close" InputGestureText="Ctrl+X">
                 <MenuItem.Icon>
                     <Image Source="./icons/Exit.png" />
                 </MenuItem.Icon>

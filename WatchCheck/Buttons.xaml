@@ -13,7 +13,7 @@
     </UserControl.Resources>
 
     <StackPanel Orientation="Horizontal">
-        <Button Command="Open">Open Audio file</Button>
+        <!--<Button Command="Open">Open Audio file</Button>-->
         <Button>Play / Pause</Button>
     </StackPanel>
 </UserControl>

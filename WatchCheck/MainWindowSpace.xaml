@@ -6,5 +6,5 @@
              xmlns:local="clr-namespace:WatchCheck"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <TextBox Text="Main windows layout" />
+    <TextBlock Text="ASDASD"/>
 </UserControl>

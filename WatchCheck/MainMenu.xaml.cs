@@ -24,6 +24,9 @@ namespace WatchCheck
         public MainMenu()
         {
             InitializeComponent();
+            ApplicationCommands.Close.InputGestures.Add(
+                new KeyGesture(Key.X, ModifierKeys.Control)
+                );
         }
 
         private void Open_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -33,9 +36,11 @@ namespace WatchCheck
 
         private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            //OpenFileDialog open = new OpenFileDialog();
-            //open.Filter = "Wave File (*.wav)|*.wav";
-            MessageBox.Show("open");
+            OpenFileDialog open = new OpenFileDialog();
+            open.Filter = "Wave File (*.wav)|*.wav";
+            open.InitialDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
+            Nullable<bool> result = open.ShowDialog();
+            MessageBox.Show(result.ToString());
         }
 
         private void New_CanExecute(object sender, CanExecuteRoutedEventArgs e)
