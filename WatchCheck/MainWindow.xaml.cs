@@ -44,9 +44,8 @@ namespace WatchCheck
             open.InitialDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
             if (open.ShowDialog() == true)
             {
-                MessageBox.Show($"Completed: {true}\nFile: {open.FileName}");
-                mainWindowText.Text = open.FileName;
                 wave = new NAudio.Wave.WaveFileReader(open.FileName);
+                mainWindowText.Text = $"File loaded: {open.FileName}\nTotal time: {wave.TotalTime},\nWave format: {wave.WaveFormat}";
                 output = new NAudio.Wave.DirectSoundOut();
                 output.Init(new NAudio.Wave.WaveChannel32(wave));
                 output.Play();
@@ -70,6 +69,7 @@ namespace WatchCheck
 
         private void Exit_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            DisposeWave();
             Application.Current.Shutdown();
         }
 
@@ -81,6 +81,21 @@ namespace WatchCheck
                     output.Pause();
                 else if (output.PlaybackState == NAudio.Wave.PlaybackState.Paused)
                     output.Play();
+            }
+        }
+
+        private void DisposeWave()
+        {
+            if (output != null )
+            {
+                if (output.PlaybackState == NAudio.Wave.PlaybackState.Playing) output.Stop();
+                output.Dispose();
+                output = null;
+            }
+            if (wave != null)
+            {
+                wave.Dispose();
+                wave = null;
             }
         }
     }
