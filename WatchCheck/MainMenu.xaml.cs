@@ -40,7 +40,9 @@ namespace WatchCheck
             open.Filter = "Wave File (*.wav)|*.wav";
             open.InitialDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
             if (open.ShowDialog() == true)
+            {
                 MessageBox.Show(String.Format("Completed: {0}\nFile: {1}", true, open.FileName));
+            }
         }
 
         private void New_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -50,7 +52,7 @@ namespace WatchCheck
 
         private void New_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MessageBox.Show("adsfdasfasdf");
+            MessageBox.Show("New file to record.....");
         }
 
         private void Exit_CanExecute(object sender, CanExecuteRoutedEventArgs e)
