@@ -30,6 +30,8 @@ namespace WatchCheck
         {
             InitializeComponent();
             ApplicationCommands.Close.InputGestures.Add(new KeyGesture(Key.X, ModifierKeys.Control));
+            if (wave == null && output == null) playButton.IsEnabled = false;
+            mainWindowText.Text = "No file loaded";
         }
 
         private void Open_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -49,6 +51,7 @@ namespace WatchCheck
                 mainWindowText.Text = $"File loaded: {open.FileName}\nTotal time: {wave.TotalTime},\nWave format: {wave.WaveFormat}";
                 output = new NAudio.Wave.DirectSoundOut();
                 output.Init(new NAudio.Wave.WaveChannel32(wave));
+                playButton.IsEnabled = true;
             }
         }
 
@@ -64,7 +67,11 @@ namespace WatchCheck
 
         private void Exit_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;
+            DisposeWave();
+            if (wave == null && output == null)
+                e.CanExecute = true;
+            else
+                e.CanExecute = false;
         }
 
         private void Exit_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -79,14 +86,14 @@ namespace WatchCheck
             {
                 if (output.PlaybackState == NAudio.Wave.PlaybackState.Playing)
                     output.Pause();
-                else if (output.PlaybackState == NAudio.Wave.PlaybackState.Paused)
+                else if (output.PlaybackState == NAudio.Wave.PlaybackState.Paused || output.PlaybackState == NAudio.Wave.PlaybackState.Stopped)
                     output.Play();
             }
         }
 
         private void DisposeWave()
         {
-            if (output != null )
+            if (output != null)
             {
                 if (output.PlaybackState == NAudio.Wave.PlaybackState.Playing) output.Stop();
                 output.Dispose();
@@ -97,6 +104,21 @@ namespace WatchCheck
                 wave.Dispose();
                 wave = null;
             }
+            playButton.IsEnabled = false;
+        }
+
+        private void CloseFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            DisposeWave();
+            if (wave == null && output == null)
+                e.CanExecute = true;
+            else
+                e.CanExecute = false;
+        }
+
+        private void CloseFile_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            mainWindowText.Text = "No file loaded";
         }
     }
 }

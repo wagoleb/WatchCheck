@@ -24,6 +24,9 @@
         <CommandBinding Command="Close"
                         CanExecute="Exit_CanExecute"
                         Executed="Exit_Executed" />
+        <CommandBinding Command="local:CustomCommands.CloseFile"
+                        CanExecute="CloseFile_CanExecute"
+                        Executed="CloseFile_Executed" />
     </Window.CommandBindings>
 
     <DockPanel>
@@ -44,11 +47,19 @@
                         <Image Source="./icons/Save.png" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <Separator />
+                <MenuItem Header="Close" Command="local:CustomCommands.CloseFile">
+                    <MenuItem.Icon>
+                        <Image Source="./icons/Close.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <!-- 
                 <MenuItem Command="SaveAs">
                     <MenuItem.Icon>
                         <Image Source="./icons/SaveAs.png" />
                     </MenuItem.Icon>
                 </MenuItem>
+                -->
                 <Separator />
                 <MenuItem Header="E_xit" Command="Close" InputGestureText="Ctrl+X">
                     <MenuItem.Icon>
@@ -83,8 +94,9 @@
             </MenuItem>
         </Menu>
         <StackPanel DockPanel.Dock="top" Orientation="Horizontal">
-            <Button Click="PlayOrPause">Play / Pause</Button>
+            <Button Click="PlayOrPause" x:Name="playButton">Play / Pause</Button>
         </StackPanel>
-        <TextBlock Text="No file loaded" x:Name="mainWindowText"/>
+        <TextBlock x:Name="mainWindowText"/>
+        
     </DockPanel>
 </Window>
