@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -26,6 +27,7 @@ namespace WatchCheck
         private DirectSoundOut output = null;
         private WaveFileWriter recorder = null;
         private WaveIn sourceStream = null;
+        string tempFile = @"C:\temp\temp.wav";
 
         public MainWindow()
         {
@@ -110,6 +112,7 @@ namespace WatchCheck
             {
                 recorder.Dispose();
                 recorder = null;
+                File.Delete(tempFile);
             }
         }
 
@@ -143,11 +146,6 @@ namespace WatchCheck
             }
         }
 
-        private void RecordWave(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void RefreshSource(object sender, RoutedEventArgs e)
         {
             List<WaveInCapabilities> sources = new List<WaveInCapabilities>();
@@ -175,7 +173,7 @@ namespace WatchCheck
                 sourceStream.DeviceNumber = deviceNumber;
                 sourceStream.WaveFormat = new WaveFormat(44100, WaveIn.GetCapabilities(deviceNumber).Channels);
                 sourceStream.DataAvailable += new EventHandler<WaveInEventArgs>(SourceStream_DataAvailable);
-                recorder = new WaveFileWriter(@"C:\temp\temp.wav", sourceStream.WaveFormat);
+                recorder = new WaveFileWriter(tempFile, sourceStream.WaveFormat);
                 sourceStream.StartRecording();
             }
             else
