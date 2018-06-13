@@ -175,7 +175,7 @@ namespace WatchCheck
                 sourceStream.DeviceNumber = deviceNumber;
                 sourceStream.WaveFormat = new WaveFormat(44100, WaveIn.GetCapabilities(deviceNumber).Channels);
                 sourceStream.DataAvailable += new EventHandler<WaveInEventArgs>(SourceStream_DataAvailable);
-                recorder = new WaveFileWriter("C:\temp\tempWave.wav", sourceStream.WaveFormat);
+                recorder = new WaveFileWriter(@"C:\temp\temp.wav", sourceStream.WaveFormat);
                 sourceStream.StartRecording();
             }
             else
