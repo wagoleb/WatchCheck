@@ -32,9 +32,21 @@ namespace WatchCheck
         public MainWindow()
         {
             InitializeComponent();
+            Logger logger = new Logger();
+            logger.LogMessage("Program start");
             ApplicationCommands.Close.InputGestures.Add(new KeyGesture(Key.X, ModifierKeys.Control));
-            if (wave == null && output == null) playButton.IsEnabled = false;
+            logger.LogMessage("Control+X gesture set");
+            logger.LogMessage("Checking if wave and output object are set");
+            if (wave == null && output == null)
+            {
+                logger.LogMessage("wave and output objects not set, EQ null, disabling the Play button");
+                playButton.IsEnabled = false;
+            }
+            else
+                logger.LogMessage("wave and output objects are set and not null");
+            logger.LogMessage("set no file loaded to info");
             mainWindowText.Text = "No file loaded";
+            
         }
 
         private void Open_CanExecute(object sender, CanExecuteRoutedEventArgs e)
