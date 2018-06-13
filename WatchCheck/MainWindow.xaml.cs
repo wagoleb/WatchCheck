@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
+using NAudio.Wave;
 
 namespace WatchCheck
 {
@@ -22,9 +22,10 @@ namespace WatchCheck
     public partial class MainWindow : Window
     {
 
-        private NAudio.Wave.WaveFileReader wave = null;
-
-        private NAudio.Wave.DirectSoundOut output = null;
+        private WaveFileReader wave = null;
+        private DirectSoundOut output = null;
+        private WaveFileWriter recorder = null;
+        private WaveIn sourceStream = null;
 
         public MainWindow()
         {
@@ -47,10 +48,10 @@ namespace WatchCheck
             if (open.ShowDialog() == true)
             {
                 DisposeWave();
-                wave = new NAudio.Wave.WaveFileReader(open.FileName);
+                wave = new WaveFileReader(open.FileName);
                 mainWindowText.Text = $"File loaded: {open.FileName}\nTotal time: {wave.TotalTime},\nWave format: {wave.WaveFormat}";
-                output = new NAudio.Wave.DirectSoundOut();
-                output.Init(new NAudio.Wave.WaveChannel32(wave));
+                output = new DirectSoundOut();
+                output.Init(new WaveChannel32(wave));
                 playButton.IsEnabled = true;
             }
         }
@@ -84,9 +85,9 @@ namespace WatchCheck
         {
             if (output != null)
             {
-                if (output.PlaybackState == NAudio.Wave.PlaybackState.Playing)
+                if (output.PlaybackState == PlaybackState.Playing)
                     output.Pause();
-                else if (output.PlaybackState == NAudio.Wave.PlaybackState.Paused || output.PlaybackState == NAudio.Wave.PlaybackState.Stopped)
+                else if (output.PlaybackState == PlaybackState.Paused || output.PlaybackState == PlaybackState.Stopped)
                     output.Play();
             }
         }
@@ -95,7 +96,7 @@ namespace WatchCheck
         {
             if (output != null)
             {
-                if (output.PlaybackState == NAudio.Wave.PlaybackState.Playing) output.Stop();
+                if (output.PlaybackState == PlaybackState.Playing) output.Stop();
                 output.Dispose();
                 output = null;
             }
@@ -105,6 +106,11 @@ namespace WatchCheck
                 wave = null;
             }
             playButton.IsEnabled = false;
+            if (recorder != null)
+            {
+                recorder.Dispose();
+                recorder = null;
+            }
         }
 
         private void CloseFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -119,6 +125,78 @@ namespace WatchCheck
         private void CloseFile_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             mainWindowText.Text = "No file loaded";
+        }
+
+        private void SaveFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void SaveFile_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            SaveFileDialog saveFile = new SaveFileDialog();
+            saveFile.Filter = "Wave File (*.wav)|*.wav";
+            saveFile.InitialDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
+            if (saveFile.ShowDialog() == true)
+            {
+                Console.WriteLine(saveFile.FileName);
+            }
+        }
+
+        private void RecordWave(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RefreshSource(object sender, RoutedEventArgs e)
+        {
+            List<WaveInCapabilities> sources = new List<WaveInCapabilities>();
+            for (int i = 0; i < WaveIn.DeviceCount; i++)
+            {
+                sources.Add(WaveIn.GetCapabilities(i));
+            }
+
+            SourcesList.Items.Clear();
+
+            foreach (var source in sources)
+            {
+                ListViewItem item = new ListViewItem();
+                SourcesList.Items.Add(source.ProductName);
+            }
+        }
+
+        private void StartRec(object sender, RoutedEventArgs e)
+        {
+            if (SourcesList.SelectedItems.Count == 1)
+            {
+                int deviceNumber = SourcesList.SelectedIndex;
+
+                sourceStream = new WaveIn();
+                sourceStream.DeviceNumber = deviceNumber;
+                sourceStream.WaveFormat = new WaveFormat(44100, WaveIn.GetCapabilities(deviceNumber).Channels);
+                sourceStream.DataAvailable += new EventHandler<WaveInEventArgs>(SourceStream_DataAvailable);
+                recorder = new WaveFileWriter("C:\temp\tempWave.wav", sourceStream.WaveFormat);
+                sourceStream.StartRecording();
+            }
+            else
+                return;
+        }
+
+        private void SourceStream_DataAvailable(object sender, WaveInEventArgs e)
+        {
+            if (recorder != null)
+            {
+                recorder.Write(e.Buffer, 0, e.BytesRecorded);
+                recorder.Flush();
+            }
+        }
+
+        private void StopRec(object sender, RoutedEventArgs e)
+        {
+            if (sourceStream != null)
+            {
+                sourceStream.StopRecording();
+            }
         }
     }
 }

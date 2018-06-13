@@ -9,6 +9,8 @@
     <Window.Resources>
         <Style TargetType="{x:Type Button}" x:Name="buttonStyle">
             <Setter Property="Margin" Value="2,2,1,2" />
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="Width" Value="100" />
         </Style>
         <Style TargetType="TextBlock">
             <Setter Property="Padding" Value="2" />
@@ -27,6 +29,9 @@
         <CommandBinding Command="local:CustomCommands.CloseFile"
                         CanExecute="CloseFile_CanExecute"
                         Executed="CloseFile_Executed" />
+        <CommandBinding Command="local:CustomCommands.SaveFile"
+                        CanExecute="SaveFile_CanExecute"
+                        Executed="SaveFile_Executed" />
     </Window.CommandBindings>
 
     <DockPanel>
@@ -42,7 +47,7 @@
                         <Image Source="./icons/Open.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Save" Command="Save">
+                <MenuItem Header="_Save" Command="local:CustomCommands.SaveFile">
                     <MenuItem.Icon>
                         <Image Source="./icons/Save.png" />
                     </MenuItem.Icon>
@@ -53,14 +58,6 @@
                         <Image Source="./icons/Close.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <!-- 
-                <MenuItem Command="SaveAs">
-                    <MenuItem.Icon>
-                        <Image Source="./icons/SaveAs.png" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                -->
-                <Separator />
                 <MenuItem Header="E_xit" Command="Close" InputGestureText="Ctrl+X">
                     <MenuItem.Icon>
                         <Image Source="./icons/Exit.png" />
@@ -96,7 +93,15 @@
         <StackPanel DockPanel.Dock="top" Orientation="Horizontal">
             <Button Click="PlayOrPause" x:Name="playButton">Play / Pause</Button>
         </StackPanel>
-        <TextBlock x:Name="mainWindowText"/>
-        
+        <TextBlock DockPanel.Dock="Top" x:Name="mainWindowText"/>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <StackPanel Orientation="Vertical">
+                <Button Click="RefreshSource" x:Name="Refresh">Refresh source</Button>
+                <Label>Recording</Label>
+                <Button Click="StartRec" x:Name="StartR">Start</Button>
+                <Button Click="StopRec" x:Name="StopR">Stop</Button>
+            </StackPanel>
+            <ListBox SelectionMode="Single" Width="400" Margin="1,2,1,1" x:Name="SourcesList" />
+        </StackPanel>
     </DockPanel>
 </Window>
